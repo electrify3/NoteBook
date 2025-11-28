@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ note.title if note else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="folder">Folder</label>
+            <select id="folder" name="folder_id"
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.375rem;">
+                <option value="">No Folder</option>
+                {% for folder in folders %}
+                <option value="{{ folder._id }}" {% if (note and note.folder_id|string==folder._id|string) or
+                    (selected_folder_id|string==folder._id|string) %}selected{% endif %}>
+                    {{ folder.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Content (Markdown supported)</label>
+            <textarea id="content" name="content" rows="15">{{ note.content if note else '' }}</textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit">Save Note</button>
+            <a href="{{ url_for('dashboard') }}"
+                style="padding: 0.75rem 1.5rem; text-decoration: none; color: var(--text-muted);">Cancel</a>
+            {% if note %}
+            <a href="{{ url_for('delete_note', note_id=note._id) }}"
+                style="color: #ef4444; margin-left: auto; align-self: center; text-decoration: none;"
+                onclick="return confirm('Are you sure?')">Delete Note</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

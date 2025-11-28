@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Admin Panel</h2>
+
+<div class="card">
+    <h3>All Users</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+            <tr style="text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Username</th>
+                <th style="padding: 0.5rem;">Role</th>
+                <th style="padding: 0.5rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">{{ user.username }}</td>
+                <td style="padding: 0.5rem;">
+                    {% if user.is_admin %}
+                    <span
+                        style="background-color: #d1fae5; color: #065f46; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.8rem;">Admin</span>
+                    {% else %}
+                    <span
+                        style="background-color: #f3f4f6; color: #374151; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.8rem;">User</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 0.5rem;">
+                    <!-- Placeholder for admin actions like delete user -->
+                    <button
+                        style="padding: 0.25rem 0.5rem; font-size: 0.8rem; background-color: #ef4444;">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
