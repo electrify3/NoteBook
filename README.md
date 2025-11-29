@@ -1,3 +1,5 @@
+<img src="./static/icon.png" alt="app icon" width="150"/>  
+
 NoteBook
 =====
 It is a Note book app made using Python Flask, html and css.  
