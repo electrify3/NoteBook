@@ -262,6 +262,24 @@ def admin():
     users = list(mongo.db.users.find())
     return render_template('admin.html', users=users)
 
+@app.route('/admin/user/confirm_delete/<user_id>')
+@login_required
+def confirm_delete_user(user_id):
+    if not current_user.is_admin:
+        flash('Access denied')
+        return redirect(url_for('dashboard'))
+    
+    if user_id == current_user.id:
+        flash('You cannot delete your own account')
+        return redirect(url_for('admin'))
+    
+    user_to_delete = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+    if not user_to_delete:
+        flash('User not found')
+        return redirect(url_for('admin'))
+    
+    return render_template('confirm.html', user_to_delete=user_to_delete)
+
 @app.route('/admin/user/delete/<user_id>', methods=['POST'])
 @login_required
 def delete_user(user_id):

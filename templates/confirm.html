@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Confirm User Deletion</h2>
+
+<div class="card" style="max-width: 600px; margin: 2rem auto;">
+    <div
+        style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+        <h3 style="color: #991b1b; margin-top: 0;">⚠️ Warning</h3>
+        <p style="color: #7f1d1d; margin-bottom: 0;">
+            You are about to delete user <strong>{{ user_to_delete.username }}</strong>.
+            This action will permanently delete:
+        </p>
+        <ul style="color: #7f1d1d; margin-top: 0.5rem;">
+            <li>The user account</li>
+            <li>All their notes</li>
+            <li>All their folders</li>
+        </ul>
+        <p style="color: #7f1d1d; font-weight: bold; margin-bottom: 0;">
+            This action cannot be undone!
+        </p>
+    </div>
+
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="{{ url_for('admin') }}"
+            style="text-decoration: none; background-color: #6b7280; color: white; padding: 0.5rem 1.5rem; border-radius: 0.25rem; font-weight: 500;">
+            Cancel
+        </a>
+        <form method="POST" action="{{ url_for('delete_user', user_id=user_to_delete._id) }}" style="display: inline;">
+            <button type="submit"
+                style="background-color: #ef4444; color: white; padding: 0.5rem 1.5rem; border-radius: 0.25rem; font-weight: 500; border: none; cursor: pointer;">
+                Yes, Delete User
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
