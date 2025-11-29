@@ -1,13 +1,18 @@
+import re
+import datetime
+
+import markdown
+from bson.objectid import ObjectId
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_pymongo import PyMongo
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
-from config import Config
-from bson.objectid import ObjectId
-import datetime
-import re
-import markdown
+from flask_login import (
+    LoginManager, UserMixin, login_user, login_required,
+    logout_user, current_user
+    )
 from markupsafe import Markup
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
