@@ -264,7 +264,7 @@ def admin():
 
 @app.route('/admin/user/confirmation/<user_id>')
 @login_required
-def confirm_delete_user(user_id):
+def confirmation(user_id):
     if not current_user.is_admin:
         flash('Access denied')
         return redirect(url_for('dashboard'))
@@ -278,7 +278,7 @@ def confirm_delete_user(user_id):
         flash('User not found')
         return redirect(url_for('admin'))
     
-    return render_template('confirm.html', user_to_delete=user_to_delete)
+    return render_template('confirmation.html', user_to_delete=user_to_delete)
 
 @app.route('/admin/user/delete/<user_id>', methods=['POST'])
 @login_required
