@@ -262,7 +262,7 @@ def admin():
     users = list(mongo.db.users.find())
     return render_template('admin.html', users=users)
 
-@app.route('/admin/user/confirm_delete/<user_id>')
+@app.route('/admin/user/confirmation/<user_id>')
 @login_required
 def confirm_delete_user(user_id):
     if not current_user.is_admin:
