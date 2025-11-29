@@ -262,5 +262,48 @@ def admin():
     users = list(mongo.db.users.find())
     return render_template('admin.html', users=users)
 
+@app.route('/admin/user/delete/<user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not current_user.is_admin:
+        flash('Access denied')
+        return redirect(url_for('dashboard'))
+    
+    if user_id == current_user.id:
+        flash('You cannot delete your own account')
+        return redirect(url_for('admin'))
+
+    mongo.db.notes.delete_many({'user_id': ObjectId(user_id)})
+    
+    mongo.db.folders.delete_many({'user_id': ObjectId(user_id)})
+    
+    mongo.db.users.delete_one({'_id': ObjectId(user_id)})
+    
+    flash('User and all associated data deleted')
+    return redirect(url_for('admin'))
+
+@app.route('/admin/user/toggle_admin/<user_id>')
+@login_required
+def toggle_admin(user_id):
+    if not current_user.is_admin:
+        flash('Access denied')
+        return redirect(url_for('dashboard'))
+        
+    if user_id == current_user.id:
+        flash('You cannot remove your own admin status')
+        return redirect(url_for('admin'))
+        
+    user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+    if user:
+        new_status = not user.get('is_admin', False)
+        mongo.db.users.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$set': {'is_admin': new_status}}
+        )
+        status_msg = "promoted to admin" if new_status else "demoted to user"
+        flash(f'User {status_msg}')
+    
+    return redirect(url_for('admin'))
+
 if __name__ == '__main__':
     app.run(debug=True)
