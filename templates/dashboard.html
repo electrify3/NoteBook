@@ -28,20 +28,29 @@
     <div class="main-content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <h2>
-                {% if active_folder_name %}
+                {% if active_folder %}
                 {{ active_folder_name }}
-                <button onclick="document.getElementById('rename-form').style.display='inline-block'"
-                    class="btn-rename">Rename</button>
-                <form id="rename-form" action="{{ url_for('rename_folder', folder_id=active_folder) }}" method="POST"
+                <button onclick="document.getElementById('rename-form').style.display='inline-block'" class="btn-rename">
+                    Rename
+                </button>
+
+                <form id="rename-form"
+                    action="{{ url_for('rename_folder', folder_id=active_folder) }}"
+                    method="POST"
                     style="display: none; margin-left: 0.5rem;">
                     <input type="text" name="new_name" value="{{ active_folder_name }}" required>
                     <button type="submit" style="padding: 0.25rem 0.5rem;">Save</button>
-                    <button type="button" onclick="document.getElementById('rename-form').style.display='none'"
-                        style="background-color: transparent; color: var(--text-muted); padding: 0.25rem;">Cancel</button>
+                    <button type="button"
+                            onclick="document.getElementById('rename-form').style.display='none'"
+                            style="background-color: transparent; color: var(--text-muted); padding: 0.25rem;">
+                        Cancel
+                    </button>
                 </form>
+
                 {% else %}
-                All Notes
+                    {{ active_folder_name or "All Notes" }}
                 {% endif %}
+
             </h2>
 
             <div style="display: flex; gap: 1rem;">
